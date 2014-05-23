@@ -64,7 +64,7 @@ public class SimpleDataSource implements DataSource
         else
             return null;
     }
-    
+
     private String               _name;
     private Map<String, String>  _properties;
     private DataProvider<String> _dataProvider;
