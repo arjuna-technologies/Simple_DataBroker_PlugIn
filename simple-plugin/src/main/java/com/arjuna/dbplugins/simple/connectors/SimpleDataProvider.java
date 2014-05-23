@@ -4,6 +4,8 @@
 
 package com.arjuna.dbplugins.simple.connectors;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -29,6 +31,12 @@ public class SimpleDataProvider<T> implements DataProvider<T>
     {
         return _dataFlowNode;
     }
+
+    @Override
+	public Collection<DataConsumer<T>> getDataConsumers()
+	{
+		return Collections.unmodifiableList(_dataConsumers);
+	}
 
     @Override
     public void addDataConsumer(DataConsumer<T> dataConsumer)
