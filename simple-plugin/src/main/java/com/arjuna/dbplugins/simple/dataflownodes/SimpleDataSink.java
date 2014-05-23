@@ -6,9 +6,11 @@ package com.arjuna.dbplugins.simple.dataflownodes;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.logging.Logger;
 
 import com.arjuna.databroker.data.DataConsumer;
@@ -26,14 +28,18 @@ public class SimpleDataSink implements DataSink
         _name       = name;
         _properties = properties;
 
+        _sentHistory = new LinkedList<String>();
+
         _dataConsumer = new SimpleDataConsumer<String>(this, MethodUtil.getMethod(SimpleDataSink.class, "send"));
     }
 
+    @Override
     public String getName()
     {
         return _name;
     }
 
+    @Override
     public Map<String, String> getProperties()
     {
         return Collections.unmodifiableMap(_properties);
@@ -42,6 +48,12 @@ public class SimpleDataSink implements DataSink
     public void send(String data)
     {
         logger.info("SimpleDataSink.send: data = " + data);
+        _sentHistory.add(data);
+    }
+
+    public List<String> getSentHistory()
+    {
+    	return _sentHistory;
     }
 
     @Override
@@ -64,6 +76,8 @@ public class SimpleDataSink implements DataSink
             return null;
     }
 
+    private List<String> _sentHistory;
+    
     private String               _name;
     private Map<String, String>  _properties;
     private DataConsumer<String> _dataConsumer;

@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+
 import com.arjuna.databroker.data.DataProvider;
 import com.arjuna.databroker.data.DataSource;
 import com.arjuna.dbplugins.simple.connectors.SimpleDataProvider;
@@ -28,11 +29,13 @@ public class SimpleDataSource implements DataSource
         _dataProvider = new SimpleDataProvider<String>(this);
     }
 
+    @Override
     public String getName()
     {
         return _name;
     }
 
+    @Override
     public Map<String, String> getProperties()
     {
         return Collections.unmodifiableMap(_properties);

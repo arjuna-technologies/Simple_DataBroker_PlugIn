@@ -34,11 +34,13 @@ public class SimpleDataStore implements DataStore
         _dataProvider = new SimpleDataProvider<String>(this);
     }
 
+    @Override
     public String getName()
     {
         return _name;
     }
 
+    @Override
     public Map<String, String> getProperties()
     {
         return Collections.unmodifiableMap(_properties);
