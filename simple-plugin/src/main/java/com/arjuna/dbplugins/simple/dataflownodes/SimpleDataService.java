@@ -46,7 +46,14 @@ public class SimpleDataService implements DataService
     {
         logger.info("SimpleDataService.export: " + data);
     }
-    
+
+    public void dummyImport(String data)
+    {
+        logger.info("SimpleDataSource.dummyImport: " + data);
+
+        _dataProvider.produce(data);
+    }
+
     @Override
     public Collection<Class<?>> getDataConsumerDataClasses()
     {

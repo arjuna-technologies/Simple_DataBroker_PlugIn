@@ -48,7 +48,14 @@ public class SimpleDataStore implements DataStore
     {
         logger.info("SimpleDataStore.store: data = " + data);
     }
-    
+
+    public void dummyQueryReport(String data)
+    {
+        logger.info("SimpleDataSource.dummyQueryReport: " + data);
+
+        _dataProvider.produce(data);
+    }
+
     @Override
     public Collection<Class<?>> getDataConsumerDataClasses()
     {

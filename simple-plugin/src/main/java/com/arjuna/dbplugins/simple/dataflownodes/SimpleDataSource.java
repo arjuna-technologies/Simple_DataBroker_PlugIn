@@ -38,9 +38,9 @@ public class SimpleDataSource implements DataSource
         return Collections.unmodifiableMap(_properties);
     }
 
-    public void receive(String data)
+    public void dummyGetData(String data)
     {
-        logger.info("SimpleDataSource.receive: " + data);
+        logger.info("SimpleDataSource.dummyGetData: " + data);
 
         _dataProvider.produce(data);
     }

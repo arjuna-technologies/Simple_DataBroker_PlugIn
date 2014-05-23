@@ -4,7 +4,6 @@
 
 package com.arjuna.dbplugins.tests.simple;
 
-import java.util.Collection;
 import java.util.Collections;
 import org.junit.Test;
 import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataProcessor;
@@ -25,9 +24,37 @@ public class ChainingTest
         simpleDataSource.getDataProvider(String.class).addDataConsumer(simpleDataProcessor.getDataConsumer(String.class));
         simpleDataProcessor.getDataProvider(String.class).addDataConsumer(simpleDataSink.getDataConsumer(String.class));
 
-        simpleDataSource.receive("Data Bundle 1");
-        simpleDataSource.receive("Data Bundle 2");
-        simpleDataSource.receive("Data Bundle 3");
-        simpleDataSource.receive("Data Bundle 4");
+        simpleDataSource.dummyGetData("Data Bundle 1");
+        simpleDataSource.dummyGetData("Data Bundle 2");
+        simpleDataSource.dummyGetData("Data Bundle 3");
+        simpleDataSource.dummyGetData("Data Bundle 4");
+    }
+
+    @Test
+    public void fullConnectedChain()
+    {
+        SimpleDataSource    simpleDataSource    = new SimpleDataSource("Simple Data Source", Collections.<String, String>emptyMap());
+        SimpleDataProcessor simpleDataProcessor = new SimpleDataProcessor("Simple Data Processor", Collections.<String, String>emptyMap());
+        SimpleDataSink      simpleDataSink1     = new SimpleDataSink("Simple Data Sink 1", Collections.<String, String>emptyMap());
+        SimpleDataSink      simpleDataSink2     = new SimpleDataSink("Simple Data Sink 2", Collections.<String, String>emptyMap());
+        SimpleDataSink      simpleDataSink3     = new SimpleDataSink("Simple Data Sink 3", Collections.<String, String>emptyMap());
+        SimpleDataService   simpleDataService   = new SimpleDataService("Simple Data Service", Collections.<String, String>emptyMap());
+        SimpleDataStore     simpleDataStore     = new SimpleDataStore("Simple Data Store", Collections.<String, String>emptyMap());
+
+        simpleDataSource.getDataProvider(String.class).addDataConsumer(simpleDataService.getDataConsumer(String.class));
+        simpleDataService.getDataProvider(String.class).addDataConsumer(simpleDataSink1.getDataConsumer(String.class));
+
+        simpleDataSource.getDataProvider(String.class).addDataConsumer(simpleDataProcessor.getDataConsumer(String.class));
+        simpleDataProcessor.getDataProvider(String.class).addDataConsumer(simpleDataSink2.getDataConsumer(String.class));
+
+        simpleDataSource.getDataProvider(String.class).addDataConsumer(simpleDataService.getDataConsumer(String.class));
+        simpleDataStore.getDataProvider(String.class).addDataConsumer(simpleDataSink3.getDataConsumer(String.class));
+
+        simpleDataSource.dummyGetData("Data Bundle 1");
+        simpleDataService.dummyImport("Import Bundle 1");
+        simpleDataStore.dummyQueryReport("Report Bundle 1");
+        simpleDataSource.dummyGetData("Data Bundle 2");
+        simpleDataService.dummyImport("Import Bundle 2");
+        simpleDataStore.dummyQueryReport("Report Bundle 2");
     }
 }
