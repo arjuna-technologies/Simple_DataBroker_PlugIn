@@ -9,8 +9,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import com.arjuna.databroker.data.DataConsumer;
 import com.arjuna.databroker.data.DataProvider;
 import com.arjuna.databroker.data.DataService;
@@ -23,12 +23,12 @@ public class SimpleDataService implements DataService
 
     public SimpleDataService(String name, Map<String, String> properties)
     {
-        logger.info("StringDataService: " + name + ", " + properties);
+        logger.log(Level.INFO, "StringDataService: " + name + ", " + properties);
 
         _name       = name;
         _properties = properties;
 
-        _dataConsumer = new SimpleDataConsumer<String>(this, MethodUtil.getMethod(SimpleDataService.class, "export"));
+        _dataConsumer = new SimpleDataConsumer<String>(this, MethodUtil.getMethod(SimpleDataService.class, "export", String.class));
         _dataProvider = new SimpleDataProvider<String>(this);
     }
 
@@ -46,12 +46,12 @@ public class SimpleDataService implements DataService
 
     public void export(String data)
     {
-        logger.info("SimpleDataService.export: " + data);
+        logger.log(Level.INFO, "SimpleDataService.export: " + data);
     }
 
     public void dummyImport(String data)
     {
-        logger.info("SimpleDataSource.dummyImport: " + data);
+        logger.log(Level.INFO, "SimpleDataSource.dummyImport: " + data);
 
         _dataProvider.produce(data);
     }

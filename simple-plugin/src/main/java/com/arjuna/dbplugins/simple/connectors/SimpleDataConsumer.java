@@ -17,7 +17,7 @@ public class SimpleDataConsumer<T> implements DataConsumer<T>
 
     public SimpleDataConsumer(DataFlowNode dataFlowNode, Method method)
     {
-        logger.fine("SimpleDataConsumer: " + dataFlowNode + ", " + method);
+        logger.log(Level.FINE, "SimpleDataConsumer: " + dataFlowNode + ", " + method);
         
         _dataFlowNode = dataFlowNode;
         _method       = method;

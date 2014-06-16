@@ -9,8 +9,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import com.arjuna.databroker.data.DataConsumer;
 import com.arjuna.databroker.data.DataProvider;
 import com.arjuna.databroker.data.DataStore;
@@ -25,12 +25,12 @@ public class SimpleDataStore implements DataStore
 
     public SimpleDataStore(String name, Map<String, String> properties)
     {
-        logger.info("SimpleDataStore: " + name + ", " + properties);
+        logger.log(Level.INFO, "SimpleDataStore: " + name + ", " + properties);
 
         _name          = name;
         _properties    = properties;
 
-        _dataConsumer = new SimpleDataConsumer<String>(this, MethodUtil.getMethod(SimpleDataStore.class, "store"));
+        _dataConsumer = new SimpleDataConsumer<String>(this, MethodUtil.getMethod(SimpleDataStore.class, "store", String.class));
         _dataProvider = new SimpleDataProvider<String>(this);
     }
 
@@ -48,12 +48,12 @@ public class SimpleDataStore implements DataStore
 
     public void store(String data)
     {
-        logger.info("SimpleDataStore.store: data = " + data);
+        logger.log(Level.INFO, "SimpleDataStore.store: data = " + data);
     }
 
     public void dummyQueryReport(String data)
     {
-        logger.info("SimpleDataSource.dummyQueryReport: " + data);
+        logger.log(Level.INFO, "SimpleDataSource.dummyQueryReport: " + data);
 
         _dataProvider.produce(data);
     }

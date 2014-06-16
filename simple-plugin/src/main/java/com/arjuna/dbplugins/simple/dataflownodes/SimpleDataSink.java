@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import com.arjuna.databroker.data.DataConsumer;
 import com.arjuna.databroker.data.DataSink;
 import com.arjuna.dbplugins.simple.connectors.SimpleDataConsumer;
@@ -23,14 +23,14 @@ public class SimpleDataSink implements DataSink
 
     public SimpleDataSink(String name, Map<String, String> properties)
     {
-        logger.info("SimpleDataSink: " + name + ", " + properties);
+        logger.log(Level.INFO, "SimpleDataSink: " + name + ", " + properties);
 
         _name       = name;
         _properties = properties;
 
         _sentHistory = new LinkedList<String>();
 
-        _dataConsumer = new SimpleDataConsumer<String>(this, MethodUtil.getMethod(SimpleDataSink.class, "send"));
+        _dataConsumer = new SimpleDataConsumer<String>(this, MethodUtil.getMethod(SimpleDataSink.class, "send", String.class));
     }
 
     @Override
@@ -47,13 +47,13 @@ public class SimpleDataSink implements DataSink
 
     public void send(String data)
     {
-        logger.info("SimpleDataSink.send: data = " + data);
+        logger.log(Level.INFO, "SimpleDataSink.send: data = " + data);
         _sentHistory.add(data);
     }
 
     public List<String> getSentHistory()
     {
-    	return _sentHistory;
+        return _sentHistory;
     }
 
     @Override

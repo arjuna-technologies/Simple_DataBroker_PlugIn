@@ -8,15 +8,15 @@ import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MethodUtil
+public class MethodUtil<T>
 {
     private static final Logger logger = Logger.getLogger(MethodUtil.class.getName());
 
-    public static Method getMethod(Class<?> nodeClass, String nodeMethodName)
+    public static Method getMethod(Class<?> nodeClass, String nodeMethodName, Class<?> dataClass)
     {
         try
         {
-            return nodeClass.getMethod(nodeMethodName, new Class[]{String.class});
+            return nodeClass.getMethod(nodeMethodName, new Class[]{dataClass});
         }
         catch (Throwable throwable)
         {

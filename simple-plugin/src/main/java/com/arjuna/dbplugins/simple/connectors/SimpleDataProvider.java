@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.arjuna.databroker.data.DataConsumer;
@@ -20,7 +21,7 @@ public class SimpleDataProvider<T> implements DataProvider<T>
 
     public SimpleDataProvider(DataFlowNode dataFlowNode)
     {
-        logger.fine("SimpleDataProvider: " + dataFlowNode);
+        logger.log(Level.FINE, "SimpleDataProvider: " + dataFlowNode);
         
         _dataFlowNode  = dataFlowNode;
         _dataConsumers = new LinkedList<DataConsumer<T>>();
@@ -33,10 +34,10 @@ public class SimpleDataProvider<T> implements DataProvider<T>
     }
 
     @Override
-	public Collection<DataConsumer<T>> getDataConsumers()
-	{
-		return Collections.unmodifiableList(_dataConsumers);
-	}
+    public Collection<DataConsumer<T>> getDataConsumers()
+    {
+        return Collections.unmodifiableList(_dataConsumers);
+    }
 
     @Override
     public void addDataConsumer(DataConsumer<T> dataConsumer)

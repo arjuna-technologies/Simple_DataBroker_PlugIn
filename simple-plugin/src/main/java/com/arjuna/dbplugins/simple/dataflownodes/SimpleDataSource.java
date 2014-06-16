@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.arjuna.databroker.data.DataProvider;
@@ -21,7 +22,7 @@ public class SimpleDataSource implements DataSource
 
     public SimpleDataSource(String name, Map<String, String> properties)
     {
-        logger.info("SimpleDataSource: " + name + ", " + properties);
+        logger.log(Level.INFO, "SimpleDataSource: " + name + ", " + properties);
 
         _name          = name;
         _properties    = properties;
@@ -43,7 +44,7 @@ public class SimpleDataSource implements DataSource
 
     public void dummyGetData(String data)
     {
-        logger.info("SimpleDataSource.dummyGetData: " + data);
+        logger.log(Level.INFO, "SimpleDataSource.dummyGetData: " + data);
 
         _dataProvider.produce(data);
     }

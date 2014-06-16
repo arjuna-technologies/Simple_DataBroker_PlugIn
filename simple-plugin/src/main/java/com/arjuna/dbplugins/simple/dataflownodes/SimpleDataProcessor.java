@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.arjuna.databroker.data.DataConsumer;
@@ -23,12 +24,12 @@ public class SimpleDataProcessor implements DataProcessor
 
     public SimpleDataProcessor(String name, Map<String, String> properties)
     {
-        logger.info("SimpleDataProcessor: " + name + ", " + properties);
+        logger.log(Level.INFO, "SimpleDataProcessor: " + name + ", " + properties);
 
         _name       = name;
         _properties = properties;
 
-        _dataConsumer = new SimpleDataConsumer<String>(this, MethodUtil.getMethod(SimpleDataProcessor.class, "process"));
+        _dataConsumer = new SimpleDataConsumer<String>(this, MethodUtil.getMethod(SimpleDataProcessor.class, "process", String.class));
         _dataProvider = new SimpleDataProvider<String>(this);
     }
 
@@ -46,7 +47,7 @@ public class SimpleDataProcessor implements DataProcessor
 
     public void process(String data)
     {
-        logger.info("SimpleDataProcessor.process: " + data);
+        logger.log(Level.INFO, "SimpleDataProcessor.process: " + data);
 
         _dataProvider.produce("[" + data + "]");
     }
