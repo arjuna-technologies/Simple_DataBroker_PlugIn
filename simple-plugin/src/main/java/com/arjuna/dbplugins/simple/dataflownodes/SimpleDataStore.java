@@ -11,11 +11,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.risbic.intraconnect.basic.BasicDataConsumer;
+import org.risbic.intraconnect.basic.BasicDataProvider;
 import com.arjuna.databroker.data.DataConsumer;
 import com.arjuna.databroker.data.DataProvider;
 import com.arjuna.databroker.data.DataStore;
-import com.arjuna.dbplugins.simple.connectors.SimpleDataConsumer;
-import com.arjuna.dbplugins.simple.connectors.SimpleDataProvider;
 
 public class SimpleDataStore implements DataStore
 {
@@ -30,8 +30,8 @@ public class SimpleDataStore implements DataStore
         _name          = name;
         _properties    = properties;
 
-        _dataConsumer = new SimpleDataConsumer<String>(this, MethodUtil.getMethod(SimpleDataStore.class, "store", String.class));
-        _dataProvider = new SimpleDataProvider<String>(this);
+        _dataConsumer = new BasicDataConsumer<String>(this, "store", String.class);
+        _dataProvider = new BasicDataProvider<String>(this);
     }
 
     @Override

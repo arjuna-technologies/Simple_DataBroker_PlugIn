@@ -11,11 +11,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.risbic.intraconnect.basic.BasicDataConsumer;
+import org.risbic.intraconnect.basic.BasicDataProvider;
 import com.arjuna.databroker.data.DataConsumer;
 import com.arjuna.databroker.data.DataProvider;
 import com.arjuna.databroker.data.DataService;
-import com.arjuna.dbplugins.simple.connectors.SimpleDataConsumer;
-import com.arjuna.dbplugins.simple.connectors.SimpleDataProvider;
 
 public class SimpleDataService implements DataService
 {
@@ -28,8 +28,8 @@ public class SimpleDataService implements DataService
         _name       = name;
         _properties = properties;
 
-        _dataConsumer = new SimpleDataConsumer<String>(this, MethodUtil.getMethod(SimpleDataService.class, "export", String.class));
-        _dataProvider = new SimpleDataProvider<String>(this);
+        _dataConsumer = new BasicDataConsumer<String>(this, "export", String.class);
+        _dataProvider = new BasicDataProvider<String>(this);
     }
 
     @Override

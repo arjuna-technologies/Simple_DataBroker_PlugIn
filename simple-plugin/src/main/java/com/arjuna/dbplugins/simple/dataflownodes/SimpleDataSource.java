@@ -11,10 +11,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import org.risbic.intraconnect.basic.BasicDataProvider;
 import com.arjuna.databroker.data.DataProvider;
 import com.arjuna.databroker.data.DataSource;
-import com.arjuna.dbplugins.simple.connectors.SimpleDataProvider;
 
 public class SimpleDataSource implements DataSource
 {
@@ -27,7 +26,7 @@ public class SimpleDataSource implements DataSource
         _name          = name;
         _properties    = properties;
 
-        _dataProvider = new SimpleDataProvider<String>(this);
+        _dataProvider = new BasicDataProvider<String>(this);
     }
 
     @Override

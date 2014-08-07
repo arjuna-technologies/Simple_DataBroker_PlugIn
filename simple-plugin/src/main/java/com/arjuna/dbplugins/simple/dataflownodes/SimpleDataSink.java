@@ -13,9 +13,9 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.risbic.intraconnect.basic.BasicDataConsumer;
 import com.arjuna.databroker.data.DataConsumer;
 import com.arjuna.databroker.data.DataSink;
-import com.arjuna.dbplugins.simple.connectors.SimpleDataConsumer;
 
 public class SimpleDataSink implements DataSink
 {
@@ -30,7 +30,7 @@ public class SimpleDataSink implements DataSink
 
         _sentHistory = new LinkedList<String>();
 
-        _dataConsumer = new SimpleDataConsumer<String>(this, MethodUtil.getMethod(SimpleDataSink.class, "send", String.class));
+        _dataConsumer = new BasicDataConsumer<String>(this, "send", String.class);
     }
 
     @Override

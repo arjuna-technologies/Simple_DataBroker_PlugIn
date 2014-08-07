@@ -11,12 +11,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import org.risbic.intraconnect.basic.BasicDataConsumer;
+import org.risbic.intraconnect.basic.BasicDataProvider;
 import com.arjuna.databroker.data.DataConsumer;
 import com.arjuna.databroker.data.DataProvider;
 import com.arjuna.databroker.data.DataProcessor;
-import com.arjuna.dbplugins.simple.connectors.SimpleDataConsumer;
-import com.arjuna.dbplugins.simple.connectors.SimpleDataProvider;
 
 public class SimpleDataProcessor implements DataProcessor
 {
@@ -29,8 +28,8 @@ public class SimpleDataProcessor implements DataProcessor
         _name       = name;
         _properties = properties;
 
-        _dataConsumer = new SimpleDataConsumer<String>(this, MethodUtil.getMethod(SimpleDataProcessor.class, "process", String.class));
-        _dataProvider = new SimpleDataProvider<String>(this);
+        _dataConsumer = new BasicDataConsumer<String>(this, "process", String.class);
+        _dataProvider = new BasicDataProvider<String>(this);
     }
 
     @Override
