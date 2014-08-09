@@ -48,14 +48,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
-            <!-- dependency>
-                <groupId>com.arjuna.databroker</groupId>
-                <artifactId>server</artifactId>
-                <version>${version.com.arjuna.databroker}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency -->
         </dependencies>
     </dependencyManagement>
 
