@@ -7,6 +7,8 @@ package com.arjuna.dbplugins.tests.simple;
 import java.util.Collections;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import com.arjuna.databroker.data.connector.ObservableDataProvider;
+import com.arjuna.databroker.data.connector.ObserverDataConsumer;
 import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataProcessor;
 import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataService;
 import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataSink;
@@ -22,8 +24,8 @@ public class ChainingTest
         SimpleDataProcessor simpleDataProcessor = new SimpleDataProcessor("Simple Data Processor", Collections.<String, String>emptyMap());
         SimpleDataSink      simpleDataSink      = new SimpleDataSink("Simple Data Sink", Collections.<String, String>emptyMap());
 
-        simpleDataSource.getDataProvider(String.class).addDataConsumer(simpleDataProcessor.getDataConsumer(String.class));
-        simpleDataProcessor.getDataProvider(String.class).addDataConsumer(simpleDataSink.getDataConsumer(String.class));
+        ((ObservableDataProvider<String>) simpleDataSource.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) simpleDataProcessor.getDataConsumer(String.class));
+        ((ObservableDataProvider<String>) simpleDataProcessor.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) simpleDataSink.getDataConsumer(String.class));
 
         simpleDataSource.dummyGetData("Data Bundle 1");
         simpleDataSource.dummyGetData("Data Bundle 2");
@@ -44,14 +46,14 @@ public class ChainingTest
         SimpleDataService   simpleDataService   = new SimpleDataService("Simple Data Service", Collections.<String, String>emptyMap());
         SimpleDataStore     simpleDataStore     = new SimpleDataStore("Simple Data Store", Collections.<String, String>emptyMap());
 
-        simpleDataSource.getDataProvider(String.class).addDataConsumer(simpleDataService.getDataConsumer(String.class));
-        simpleDataService.getDataProvider(String.class).addDataConsumer(simpleDataSink1.getDataConsumer(String.class));
+        ((ObservableDataProvider<String>) simpleDataSource.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) simpleDataService.getDataConsumer(String.class));
+        ((ObservableDataProvider<String>) simpleDataService.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>)simpleDataSink1.getDataConsumer(String.class));
 
-        simpleDataSource.getDataProvider(String.class).addDataConsumer(simpleDataProcessor.getDataConsumer(String.class));
-        simpleDataProcessor.getDataProvider(String.class).addDataConsumer(simpleDataSink2.getDataConsumer(String.class));
+        ((ObservableDataProvider<String>) simpleDataSource.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) simpleDataProcessor.getDataConsumer(String.class));
+        ((ObservableDataProvider<String>) simpleDataProcessor.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) simpleDataSink2.getDataConsumer(String.class));
 
-        simpleDataSource.getDataProvider(String.class).addDataConsumer(simpleDataService.getDataConsumer(String.class));
-        simpleDataStore.getDataProvider(String.class).addDataConsumer(simpleDataSink3.getDataConsumer(String.class));
+        ((ObservableDataProvider<String>) simpleDataSource.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) simpleDataService.getDataConsumer(String.class));
+        ((ObservableDataProvider<String>) simpleDataStore.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) simpleDataSink3.getDataConsumer(String.class));
 
         simpleDataService.dummyImport("Import Bundle 1");
         simpleDataSource.dummyGetData("Data Bundle 1");
