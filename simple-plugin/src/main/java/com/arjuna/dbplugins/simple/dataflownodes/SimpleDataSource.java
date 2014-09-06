@@ -11,7 +11,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.risbic.intraconnect.basic.BasicDataProvider;
+
+import javax.inject.Inject;
+
+import com.arjuna.databroker.data.DataFlow;
 import com.arjuna.databroker.data.DataProvider;
 import com.arjuna.databroker.data.DataSource;
 
@@ -25,8 +28,6 @@ public class SimpleDataSource implements DataSource
 
         _name          = name;
         _properties    = properties;
-
-        _dataProvider = new BasicDataProvider<String>(this);
     }
 
     @Override
@@ -36,9 +37,33 @@ public class SimpleDataSource implements DataSource
     }
 
     @Override
+    public void setName(String name)
+    {
+        _name = name;
+    }
+
+    @Override
     public Map<String, String> getProperties()
     {
         return Collections.unmodifiableMap(_properties);
+    }
+
+    @Override
+    public void setProperties(Map<String, String> properties)
+    {
+        _properties = properties;
+    }
+    
+    @Override
+    public DataFlow getDataFlow()
+    {
+        return _dataFlow;
+    }
+
+    @Override
+    public void setDataFlow(DataFlow dataFlow)
+    {
+        _dataFlow = dataFlow;
     }
 
     public void dummyGetData(String data)
@@ -70,5 +95,7 @@ public class SimpleDataSource implements DataSource
 
     private String               _name;
     private Map<String, String>  _properties;
+    private DataFlow             _dataFlow;
+    @Inject
     private DataProvider<String> _dataProvider;
 }

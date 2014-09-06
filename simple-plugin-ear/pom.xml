@@ -10,7 +10,7 @@
     <parent>
         <groupId>com.arjuna.dbplugins</groupId>
         <artifactId>simple-plugin-parent</artifactId>
-        <version>1.0.0p1m1</version>
+        <version>1.0.0p1m2l</version>
     </parent>
 
     <artifactId>simple-plugin-ear</artifactId>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.arjuna.dbplugins</groupId>
             <artifactId>simple-plugin</artifactId>
-            <version>1.0.0p1m1</version>
+            <version>1.0.0p1m2l</version>
             <scope>provided</scope>
             <type>ejb</type>
         </dependency>

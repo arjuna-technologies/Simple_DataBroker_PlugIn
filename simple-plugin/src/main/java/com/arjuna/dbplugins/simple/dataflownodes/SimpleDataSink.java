@@ -13,8 +13,11 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.risbic.intraconnect.basic.BasicDataConsumer;
+
+import javax.inject.Inject;
+
 import com.arjuna.databroker.data.DataConsumer;
+import com.arjuna.databroker.data.DataFlow;
 import com.arjuna.databroker.data.DataSink;
 
 public class SimpleDataSink implements DataSink
@@ -29,8 +32,6 @@ public class SimpleDataSink implements DataSink
         _properties = properties;
 
         _sentHistory = new LinkedList<String>();
-
-        _dataConsumer = new BasicDataConsumer<String>(this, "send", String.class);
     }
 
     @Override
@@ -40,9 +41,33 @@ public class SimpleDataSink implements DataSink
     }
 
     @Override
+    public void setName(String name)
+    {
+        _name = name;
+    }
+
+    @Override
     public Map<String, String> getProperties()
     {
         return Collections.unmodifiableMap(_properties);
+    }
+
+    @Override
+    public void setProperties(Map<String, String> properties)
+    {
+        _properties = properties;
+    }
+    
+    @Override
+    public DataFlow getDataFlow()
+    {
+        return _dataFlow;
+    }
+
+    @Override
+    public void setDataFlow(DataFlow dataFlow)
+    {
+        _dataFlow = dataFlow;
     }
 
     public void send(String data)
@@ -80,5 +105,7 @@ public class SimpleDataSink implements DataSink
     
     private String               _name;
     private Map<String, String>  _properties;
+    private DataFlow             _dataFlow;
+    @Inject
     private DataConsumer<String> _dataConsumer;
 }
