@@ -13,12 +13,10 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.inject.Inject;
-
 import com.arjuna.databroker.data.DataConsumer;
 import com.arjuna.databroker.data.DataFlow;
 import com.arjuna.databroker.data.DataSink;
+import com.arjuna.databroker.data.jee.annotation.DataConsumerInjection;
 
 public class SimpleDataSink implements DataSink
 {
@@ -106,6 +104,6 @@ public class SimpleDataSink implements DataSink
     private String               _name;
     private Map<String, String>  _properties;
     private DataFlow             _dataFlow;
-    @Inject
+    @DataConsumerInjection
     private DataConsumer<String> _dataConsumer;
 }

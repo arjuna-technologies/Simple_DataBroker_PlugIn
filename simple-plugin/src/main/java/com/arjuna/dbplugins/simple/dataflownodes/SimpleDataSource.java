@@ -11,12 +11,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.inject.Inject;
-
 import com.arjuna.databroker.data.DataFlow;
 import com.arjuna.databroker.data.DataProvider;
 import com.arjuna.databroker.data.DataSource;
+import com.arjuna.databroker.data.jee.annotation.DataProviderInjection;
 
 public class SimpleDataSource implements DataSource
 {
@@ -24,12 +22,12 @@ public class SimpleDataSource implements DataSource
 
     public SimpleDataSource(String name, Map<String, String> properties)
     {
-        logger.log(Level.INFO, "SimpleDataSource: " + name + ", " + properties);
+        logger.log(Level.WARNING, "SimpleDataSource: " + name + ", " + properties);
 
         _name          = name;
         _properties    = properties;
     }
-
+    
     @Override
     public String getName()
     {
@@ -96,6 +94,6 @@ public class SimpleDataSource implements DataSource
     private String               _name;
     private Map<String, String>  _properties;
     private DataFlow             _dataFlow;
-    @Inject
+    @DataProviderInjection
     private DataProvider<String> _dataProvider;
 }

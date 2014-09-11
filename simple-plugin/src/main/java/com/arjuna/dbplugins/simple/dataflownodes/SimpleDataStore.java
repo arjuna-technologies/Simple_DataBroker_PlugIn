@@ -11,13 +11,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.inject.Inject;
-
 import com.arjuna.databroker.data.DataConsumer;
 import com.arjuna.databroker.data.DataFlow;
 import com.arjuna.databroker.data.DataProvider;
 import com.arjuna.databroker.data.DataStore;
+import com.arjuna.databroker.data.jee.annotation.DataConsumerInjection;
+import com.arjuna.databroker.data.jee.annotation.DataProviderInjection;
 
 public class SimpleDataStore implements DataStore
 {
@@ -124,8 +123,8 @@ public class SimpleDataStore implements DataStore
     private String               _name;
     private Map<String, String>  _properties;
     private DataFlow             _dataFlow;
-    @Inject
+    @DataConsumerInjection
     private DataConsumer<String> _dataConsumer;
-    @Inject
+    @DataProviderInjection
     private DataProvider<String> _dataProvider;
 }
