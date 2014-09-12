@@ -22,11 +22,9 @@ public class SimpleDataStore implements DataStore
 {
     private static final Logger logger = Logger.getLogger(SimpleDataStore.class.getName());
 
-    public static final String REMOVEKEY_PROPERTYNAME = "Remove Key";
-
     public SimpleDataStore(String name, Map<String, String> properties)
     {
-        logger.log(Level.INFO, "SimpleDataStore: " + name + ", " + properties);
+        logger.log(Level.FINE, "SimpleDataStore: " + name + ", " + properties);
 
         _name          = name;
         _properties    = properties;
@@ -70,12 +68,12 @@ public class SimpleDataStore implements DataStore
 
     public void store(String data)
     {
-        logger.log(Level.INFO, "SimpleDataStore.store: data = " + data);
+        logger.log(Level.FINE, "SimpleDataStore.store: data = " + data);
     }
 
     public void dummyQueryReport(String data)
     {
-        logger.log(Level.INFO, "SimpleDataSource.dummyQueryReport: " + data);
+        logger.log(Level.FINE, "SimpleDataSource.dummyQueryReport: " + data);
 
         _dataProvider.produce(data);
     }
@@ -123,7 +121,7 @@ public class SimpleDataStore implements DataStore
     private String               _name;
     private Map<String, String>  _properties;
     private DataFlow             _dataFlow;
-    @DataConsumerInjection
+    @DataConsumerInjection(methodName="store")
     private DataConsumer<String> _dataConsumer;
     @DataProviderInjection
     private DataProvider<String> _dataProvider;

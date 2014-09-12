@@ -24,7 +24,7 @@ public class SimpleDataProcessor implements DataProcessor
 
     public SimpleDataProcessor(String name, Map<String, String> properties)
     {
-        logger.log(Level.INFO, "SimpleDataProcessor: " + name + ", " + properties);
+        logger.log(Level.FINE, "SimpleDataProcessor: " + name + ", " + properties);
 
         _name       = name;
         _properties = properties;
@@ -68,7 +68,7 @@ public class SimpleDataProcessor implements DataProcessor
 
     public void process(String data)
     {
-        logger.log(Level.INFO, "SimpleDataProcessor.process: " + data);
+        logger.log(Level.FINE, "SimpleDataProcessor.process: " + data);
 
         _dataProvider.produce("[" + data + "]");
     }
@@ -116,7 +116,7 @@ public class SimpleDataProcessor implements DataProcessor
     private String               _name;
     private Map<String, String>  _properties;
     private DataFlow             _dataFlow;
-    @DataConsumerInjection
+    @DataConsumerInjection(methodName="process")
     private DataConsumer<String> _dataConsumer;
     @DataProviderInjection
     private DataProvider<String> _dataProvider;

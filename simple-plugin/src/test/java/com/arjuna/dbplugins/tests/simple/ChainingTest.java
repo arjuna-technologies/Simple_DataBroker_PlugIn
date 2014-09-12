@@ -5,10 +5,14 @@
 package com.arjuna.dbplugins.tests.simple;
 
 import java.util.Collections;
+
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import com.arjuna.databroker.data.connector.ObservableDataProvider;
 import com.arjuna.databroker.data.connector.ObserverDataConsumer;
+import com.arjuna.databroker.data.jee.DataFlowNodeLifeCycleControl;
 import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataProcessor;
 import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataService;
 import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataSink;
@@ -24,6 +28,10 @@ public class ChainingTest
         SimpleDataProcessor simpleDataProcessor = new SimpleDataProcessor("Simple Data Processor", Collections.<String, String>emptyMap());
         SimpleDataSink      simpleDataSink      = new SimpleDataSink("Simple Data Sink", Collections.<String, String>emptyMap());
 
+        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataSource, null);
+        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataProcessor, null);
+        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataSink, null);
+        
         ((ObservableDataProvider<String>) simpleDataSource.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) simpleDataProcessor.getDataConsumer(String.class));
         ((ObservableDataProvider<String>) simpleDataProcessor.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) simpleDataSink.getDataConsumer(String.class));
 
@@ -46,6 +54,14 @@ public class ChainingTest
         SimpleDataService   simpleDataService   = new SimpleDataService("Simple Data Service", Collections.<String, String>emptyMap());
         SimpleDataStore     simpleDataStore     = new SimpleDataStore("Simple Data Store", Collections.<String, String>emptyMap());
 
+        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataSource, null);
+        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataProcessor, null);
+        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataSink1, null);
+        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataSink2, null);
+        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataSink3, null);
+        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataService, null);
+        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataStore, null);
+       
         ((ObservableDataProvider<String>) simpleDataSource.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) simpleDataService.getDataConsumer(String.class));
         ((ObservableDataProvider<String>) simpleDataService.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>)simpleDataSink1.getDataConsumer(String.class));
 
@@ -65,5 +81,5 @@ public class ChainingTest
         assertArrayEquals("Unexpected history at DataSink 1", new String[]{"Import Bundle 1", "Import Bundle 2"}, simpleDataSink1.getSentHistory().toArray());
         assertArrayEquals("Unexpected history at DataSink 2", new String[]{"[Data Bundle 1]", "[Data Bundle 2]"}, simpleDataSink2.getSentHistory().toArray());
         assertArrayEquals("Unexpected history at DataSink 3", new String[]{"Report Bundle 1", "Report Bundle 2"}, simpleDataSink3.getSentHistory().toArray());
-}
+    }
 }

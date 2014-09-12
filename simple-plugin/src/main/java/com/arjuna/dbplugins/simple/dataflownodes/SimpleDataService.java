@@ -24,7 +24,7 @@ public class SimpleDataService implements DataService
 
     public SimpleDataService(String name, Map<String, String> properties)
     {
-        logger.log(Level.INFO, "StringDataService: " + name + ", " + properties);
+        logger.log(Level.FINE, "SimpleDataService: " + name + ", " + properties);
 
         _name       = name;
         _properties = properties;
@@ -68,12 +68,12 @@ public class SimpleDataService implements DataService
 
     public void export(String data)
     {
-        logger.log(Level.INFO, "SimpleDataService.export: " + data);
+        logger.log(Level.FINE, "SimpleDataService.export: " + data);
     }
 
     public void dummyImport(String data)
     {
-        logger.log(Level.INFO, "SimpleDataSource.dummyImport: " + data);
+        logger.log(Level.FINE, "SimpleDataSource.dummyImport: " + data);
 
         _dataProvider.produce(data);
     }
@@ -120,7 +120,7 @@ public class SimpleDataService implements DataService
     private String               _name;
     private Map<String, String>  _properties;
     private DataFlow             _dataFlow;
-    @DataConsumerInjection
+    @DataConsumerInjection(methodName="export")
     private DataConsumer<String> _dataConsumer;
     @DataProviderInjection
     private DataProvider<String> _dataProvider;
