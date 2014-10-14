@@ -17,7 +17,7 @@
 
     <packaging>ejb</packaging>
 
-    <name>Simple DataBroker Plugin</name>
+    <name>Simple DataBroker PlugIn</name>
 
     <dependencies>
         <dependency>

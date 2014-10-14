@@ -17,7 +17,7 @@
 
     <packaging>ear</packaging>
 
-    <name>Simple DataBroker Plugin EAR</name>
+    <name>Simple DataBroker PlugIn EAR</name>
 
     <dependencies>
         <dependency>
