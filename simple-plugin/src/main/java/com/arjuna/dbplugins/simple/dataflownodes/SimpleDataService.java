@@ -4,6 +4,7 @@
 
 package com.arjuna.dbplugins.simple.dataflownodes;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -13,10 +14,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.arjuna.databroker.data.DataConsumer;
 import com.arjuna.databroker.data.DataFlow;
+import com.arjuna.databroker.data.DataFlowNodeState;
 import com.arjuna.databroker.data.DataProvider;
 import com.arjuna.databroker.data.DataService;
 import com.arjuna.databroker.data.jee.annotation.DataConsumerInjection;
+import com.arjuna.databroker.data.jee.annotation.DataFlowNodeStateInjection;
 import com.arjuna.databroker.data.jee.annotation.DataProviderInjection;
+import com.arjuna.databroker.data.jee.annotation.PostCreated;
 
 public class SimpleDataService implements DataService
 {
@@ -73,9 +77,54 @@ public class SimpleDataService implements DataService
 
     public void dummyImport(String data)
     {
-        logger.log(Level.FINE, "SimpleDataSource.dummyImport: " + data);
+        logger.log(Level.FINE, "SimpleDataService.dummyImport: " + data);
+
+        increaseCount();
 
         _dataProvider.produce(data);
+    }
+
+    @PostCreated
+    public void setup()
+    {
+        if (_dataFlowNodeState != null)
+            _dataFlowNodeState.setState(new Integer(0));
+        else
+            logger.log(Level.WARNING, "SimpleDataService.setup: no data flow node state available");
+    }
+
+    public int getCount()
+    {
+        if (_dataFlowNodeState != null)
+        {
+            Serializable state = _dataFlowNodeState.getState();
+            if ((state != null) && (state instanceof Integer))
+                return Integer.valueOf(((Integer) state)).intValue();
+            else if (state == null)
+                logger.log(Level.WARNING, "SimpleDataService.getCount: no data flow state");
+            else
+                logger.log(Level.WARNING, "SimpleDataService.getCount: unexpected data flow node state class: " + state.getClass());
+        }
+        else
+            logger.log(Level.WARNING, "SimpleDataService.getCount: no data flow node state available");
+        
+        return -1;
+    }
+    
+    private void increaseCount()
+    {
+        if (_dataFlowNodeState != null)
+        {
+            Serializable state = _dataFlowNodeState.getState();
+            if ((state != null) && (state instanceof Integer))
+                _dataFlowNodeState.setState(Integer.valueOf(((Integer) state)).intValue() + 1);
+            else if (state == null)
+                logger.log(Level.WARNING, "SimpleDataService.increaseCount: no data flow state");
+            else
+                logger.log(Level.WARNING, "SimpleDataService.increaseCount: unexpected data flow node state class: " + state.getClass());
+        }
+        else
+            logger.log(Level.WARNING, "SimpleDataService.increaseCount: no data flow node state available");
     }
 
     @Override
@@ -120,6 +169,8 @@ public class SimpleDataService implements DataService
     private String               _name;
     private Map<String, String>  _properties;
     private DataFlow             _dataFlow;
+    @DataFlowNodeStateInjection
+    DataFlowNodeState            _dataFlowNodeState;
     @DataConsumerInjection(methodName="export")
     private DataConsumer<String> _dataConsumer;
     @DataProviderInjection
