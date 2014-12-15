@@ -4,6 +4,7 @@
 
 package com.arjuna.dbplugins.simple.dataflownodes;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -15,8 +16,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.arjuna.databroker.data.DataConsumer;
 import com.arjuna.databroker.data.DataFlow;
+import com.arjuna.databroker.data.DataFlowNodeState;
 import com.arjuna.databroker.data.DataSink;
 import com.arjuna.databroker.data.jee.annotation.DataConsumerInjection;
+import com.arjuna.databroker.data.jee.annotation.DataFlowNodeStateInjection;
+import com.arjuna.databroker.data.jee.annotation.PostCreated;
 
 public class SimpleDataSink implements DataSink
 {
@@ -72,12 +76,57 @@ public class SimpleDataSink implements DataSink
     {
         logger.log(Level.FINE, "SimpleDataSink.send: data = " + data);
 
+        increaseCount();
+
         _sentHistory.add(data);
     }
 
     public List<String> getSentHistory()
     {
         return _sentHistory;
+    }
+
+    @PostCreated
+    public void setup()
+    {
+        if (_dataFlowNodeState != null)
+            _dataFlowNodeState.setState(new Integer(0));
+        else
+            logger.log(Level.WARNING, "SimpleDataSink.setup: no data flow node state available");
+    }
+
+    public int getCount()
+    {
+        if (_dataFlowNodeState != null)
+        {
+            Serializable state = _dataFlowNodeState.getState();
+            if ((state != null) && (state instanceof Integer))
+                return Integer.valueOf(((Integer) state)).intValue();
+            else if (state == null)
+                logger.log(Level.WARNING, "SimpleDataSink.getCount: no data flow state");
+            else
+                logger.log(Level.WARNING, "SimpleDataSink.getCount: unexpected data flow node state class: " + state.getClass());
+        }
+        else
+            logger.log(Level.WARNING, "SimpleDataSink.getCount: no data flow node state available");
+        
+        return -1;
+    }
+    
+    private void increaseCount()
+    {
+        if (_dataFlowNodeState != null)
+        {
+            Serializable state = _dataFlowNodeState.getState();
+            if ((state != null) && (state instanceof Integer))
+                _dataFlowNodeState.setState(Integer.valueOf(((Integer) state)).intValue() + 1);
+            else if (state == null)
+                logger.log(Level.WARNING, "SimpleDataSink.increaseCount: no data flow state");
+            else
+                logger.log(Level.WARNING, "SimpleDataSink.increaseCount: unexpected data flow node state class: " + state.getClass());
+        }
+        else
+            logger.log(Level.WARNING, "SimpleDataSink.increaseCount: no data flow node state available");
     }
 
     @Override
@@ -105,6 +154,8 @@ public class SimpleDataSink implements DataSink
     private String               _name;
     private Map<String, String>  _properties;
     private DataFlow             _dataFlow;
+    @DataFlowNodeStateInjection
+    DataFlowNodeState            _dataFlowNodeState;
     @DataConsumerInjection(methodName="send")
     private DataConsumer<String> _dataConsumer;
 }
