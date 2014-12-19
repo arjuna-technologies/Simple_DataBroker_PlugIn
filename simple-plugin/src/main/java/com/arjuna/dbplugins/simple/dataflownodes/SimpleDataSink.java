@@ -16,7 +16,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.arjuna.databroker.data.DataConsumer;
 import com.arjuna.databroker.data.DataFlow;
-import com.arjuna.databroker.data.DataFlowNodeState;
 import com.arjuna.databroker.data.DataSink;
 import com.arjuna.databroker.data.jee.DataFlowNodeState;
 import com.arjuna.databroker.data.jee.annotation.DataConsumerInjection;
