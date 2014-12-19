@@ -5,14 +5,11 @@
 package com.arjuna.dbplugins.tests.simple;
 
 import java.util.Collections;
-
 import org.junit.Test;
-
 import static org.junit.Assert.*;
-
 import com.arjuna.databroker.data.connector.ObservableDataProvider;
 import com.arjuna.databroker.data.connector.ObserverDataConsumer;
-import com.arjuna.databroker.data.jee.DataFlowNodeLifeCycleControl;
+import com.arjuna.databroker.data.core.jee.DataFlowNodeLifeCycleControl;
 import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataProcessor;
 import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataService;
 import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataSink;
