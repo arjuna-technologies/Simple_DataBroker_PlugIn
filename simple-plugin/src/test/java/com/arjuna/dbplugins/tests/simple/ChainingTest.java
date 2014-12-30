@@ -5,29 +5,33 @@
 package com.arjuna.dbplugins.tests.simple;
 
 import java.util.Collections;
+import java.util.UUID;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import com.arjuna.databroker.data.connector.ObservableDataProvider;
 import com.arjuna.databroker.data.connector.ObserverDataConsumer;
-import com.arjuna.databroker.data.core.jee.DataFlowNodeLifeCycleControl;
+import com.arjuna.databroker.data.core.DataFlowNodeLifeCycleControl;
 import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataProcessor;
 import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataService;
 import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataSink;
 import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataSource;
 import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataStore;
+import com.arjuna.dbutilities.testsupport.dataflownodes.lifecycle.TestJEEDataFlowNodeLifeCycleControl;
 
 public class ChainingTest
 {
     @Test
     public void simplestChain()
     {
+    	DataFlowNodeLifeCycleControl dataFlowNodeLifeCycleControl = new TestJEEDataFlowNodeLifeCycleControl();
+
         SimpleDataSource    simpleDataSource    = new SimpleDataSource("Simple Data Source", Collections.<String, String>emptyMap());
         SimpleDataProcessor simpleDataProcessor = new SimpleDataProcessor("Simple Data Processor", Collections.<String, String>emptyMap());
         SimpleDataSink      simpleDataSink      = new SimpleDataSink("Simple Data Sink", Collections.<String, String>emptyMap());
 
-        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataSource, null);
-        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataProcessor, null);
-        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataSink, null);
+        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataSource, null);
+        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataProcessor, null);
+        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataSink, null);
 
         ((ObservableDataProvider<String>) simpleDataSource.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) simpleDataProcessor.getDataConsumer(String.class));
         ((ObservableDataProvider<String>) simpleDataProcessor.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) simpleDataSink.getDataConsumer(String.class));
@@ -41,9 +45,9 @@ public class ChainingTest
         simpleDataSource.dummyGetData("Data Bundle 3");
         simpleDataSource.dummyGetData("Data Bundle 4");
 
-        DataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataSource);
-        DataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataProcessor);
-        DataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataSink);
+        dataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataSource);
+        dataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataProcessor);
+        dataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataSink);
 
         assertArrayEquals("Unexpected history at DataSink", new String[]{"[Data Bundle 1]", "[Data Bundle 2]", "[Data Bundle 3]", "[Data Bundle 4]"}, simpleDataSink.getSentHistory().toArray());
         
@@ -55,6 +59,8 @@ public class ChainingTest
     @Test
     public void fullConnectedChain()
     {
+    	DataFlowNodeLifeCycleControl dataFlowNodeLifeCycleControl = new TestJEEDataFlowNodeLifeCycleControl();
+
         SimpleDataSource    simpleDataSource    = new SimpleDataSource("Simple Data Source", Collections.<String, String>emptyMap());
         SimpleDataProcessor simpleDataProcessor = new SimpleDataProcessor("Simple Data Processor", Collections.<String, String>emptyMap());
         SimpleDataSink      simpleDataSink1     = new SimpleDataSink("Simple Data Sink 1", Collections.<String, String>emptyMap());
@@ -63,13 +69,13 @@ public class ChainingTest
         SimpleDataService   simpleDataService   = new SimpleDataService("Simple Data Service", Collections.<String, String>emptyMap());
         SimpleDataStore     simpleDataStore     = new SimpleDataStore("Simple Data Store", Collections.<String, String>emptyMap());
 
-        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataSource, null);
-        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataProcessor, null);
-        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataSink1, null);
-        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataSink2, null);
-        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataSink3, null);
-        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataService, null);
-        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(simpleDataStore, null);
+        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataSource, null);
+        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataProcessor, null);
+        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataSink1, null);
+        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataSink2, null);
+        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataSink3, null);
+        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataService, null);
+        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataStore, null);
 
         ((ObservableDataProvider<String>) simpleDataSource.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) simpleDataService.getDataConsumer(String.class));
         ((ObservableDataProvider<String>) simpleDataService.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) simpleDataSink1.getDataConsumer(String.class));
@@ -95,13 +101,13 @@ public class ChainingTest
         simpleDataSource.dummyGetData("Data Bundle 2");
         simpleDataStore.dummyQueryReport("Report Bundle 2");
 
-        DataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataSource);
-        DataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataProcessor);
-        DataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataSink1);
-        DataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataSink2);
-        DataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataSink3);
-        DataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataService);
-        DataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataStore);
+        dataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataSource);
+        dataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataProcessor);
+        dataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataSink1);
+        dataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataSink2);
+        dataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataSink3);
+        dataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataService);
+        dataFlowNodeLifeCycleControl.removeDataFlowNode(simpleDataStore);
 
         assertArrayEquals("Unexpected history at DataSink 1", new String[]{"Import Bundle 1", "Import Bundle 2"}, simpleDataSink1.getSentHistory().toArray());
         assertArrayEquals("Unexpected history at DataSink 2", new String[]{"[Data Bundle 1]", "[Data Bundle 2]"}, simpleDataSink2.getSentHistory().toArray());
