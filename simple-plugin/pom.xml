@@ -42,5 +42,17 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.arjuna.databroker</groupId>
+            <artifactId>data-core</artifactId>
+            <version>1.0.0p1m2l</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.arjuna.dbutilities.testsupport</groupId>
+            <artifactId>dataflownodes-lifecycle</artifactId>
+            <version>1.0.0p1m1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
