@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014, Arjuna Technologies Limited, Newcastle-upon-Tyne, England. All rights reserved.
+ * Copyright (c) 2014-2015, Arjuna Technologies Limited, Newcastle-upon-Tyne, England. All rights reserved.
  */
 
 package com.arjuna.dbplugins.simple;
@@ -20,7 +20,7 @@ public class SimpleDataFlowNodeFactoriesSetup
     @PostConstruct
     public void setup()
     {
-        DataFlowNodeFactory simpleDataFlowNodeFactory = new SimpleDataFlowNodeFactory("Simple Data Source Factory", Collections.<String, String>emptyMap());
+        DataFlowNodeFactory simpleDataFlowNodeFactory = new SimpleDataFlowNodeFactory("Simple Data Flow Node Factory", Collections.<String, String>emptyMap());
 
         _dataFlowNodeFactoryInventory.addDataFlowNodeFactory(simpleDataFlowNodeFactory);
     }
@@ -28,7 +28,7 @@ public class SimpleDataFlowNodeFactoriesSetup
     @PreDestroy
     public void cleanup()
     {
-        _dataFlowNodeFactoryInventory.removeDataFlowNodeFactory("Simple Data Source Factory");
+        _dataFlowNodeFactoryInventory.removeDataFlowNodeFactory("Simple Data Flow Node Factory");
     }
 
     @EJB(lookup="java:global/databroker/control-core/DataFlowNodeFactoryInventory")
