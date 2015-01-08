@@ -10,7 +10,7 @@
         <dependencies>
             <module name="deployment.databroker.ear.data-common.jar"/>
             <module name="deployment.databroker.ear.data-common-jee.jar"/>
-            <module name="deployment.databroker.ear.control-core.jar"/>
+            <module name="deployment.databroker.ear.data-core-jee.jar"/>
         </dependencies>
     </sub-deployment>
 </jboss-deployment-structure>

@@ -31,6 +31,6 @@ public class SimpleDataFlowNodeFactoriesSetup
         _dataFlowNodeFactoryInventory.removeDataFlowNodeFactory("Simple Data Flow Node Factory");
     }
 
-    @EJB(lookup="java:global/databroker/control-core/DataFlowNodeFactoryInventory")
+    @EJB(lookup="java:global/databroker/data-core-jee/DataFlowNodeFactoryInventory")
     private DataFlowNodeFactoryInventory _dataFlowNodeFactoryInventory;
 }
