@@ -26,6 +26,11 @@ public class SimpleDataService implements DataService
 {
     private static final Logger logger = Logger.getLogger(SimpleDataService.class.getName());
 
+    public SimpleDataService()
+    {
+        logger.log(Level.FINE, "SimpleDataService");
+    }
+
     public SimpleDataService(String name, Map<String, String> properties)
     {
         logger.log(Level.FINE, "SimpleDataService: " + name + ", " + properties);

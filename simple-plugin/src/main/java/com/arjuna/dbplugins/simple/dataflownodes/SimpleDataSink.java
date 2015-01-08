@@ -26,6 +26,11 @@ public class SimpleDataSink implements DataSink
 {
     private static final Logger logger = Logger.getLogger(SimpleDataSink.class.getName());
 
+    public SimpleDataSink()
+    {
+        logger.log(Level.FINE, "SimpleDataSink");
+    }
+
     public SimpleDataSink(String name, Map<String, String> properties)
     {
         logger.log(Level.FINE, "SimpleDataSink: " + name + ", " + properties);

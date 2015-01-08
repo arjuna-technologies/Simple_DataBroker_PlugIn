@@ -26,6 +26,11 @@ public class SimpleDataStore implements DataStore
 {
     private static final Logger logger = Logger.getLogger(SimpleDataStore.class.getName());
 
+    public SimpleDataStore()
+    {
+        logger.log(Level.FINE, "SimpleDataStore");
+    }
+
     public SimpleDataStore(String name, Map<String, String> properties)
     {
         logger.log(Level.FINE, "SimpleDataStore: " + name + ", " + properties);

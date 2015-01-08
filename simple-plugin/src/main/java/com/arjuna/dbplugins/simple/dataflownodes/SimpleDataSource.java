@@ -24,6 +24,11 @@ public class SimpleDataSource implements DataSource
 {
     private static final Logger logger = Logger.getLogger(SimpleDataSource.class.getName());
 
+    public SimpleDataSource()
+    {
+        logger.log(Level.FINE, "SimpleDataSource");
+    }
+
     public SimpleDataSource(String name, Map<String, String> properties)
     {
         logger.log(Level.FINE, "SimpleDataSource: " + name + ", " + properties);
@@ -31,7 +36,7 @@ public class SimpleDataSource implements DataSource
         _name          = name;
         _properties    = properties;
     }
-    
+
     @Override
     public String getName()
     {

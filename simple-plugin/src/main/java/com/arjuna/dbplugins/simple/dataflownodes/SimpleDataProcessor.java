@@ -26,6 +26,11 @@ public class SimpleDataProcessor implements DataProcessor
 {
     private static final Logger logger = Logger.getLogger(SimpleDataProcessor.class.getName());
 
+    public SimpleDataProcessor()
+    {
+        logger.log(Level.FINE, "SimpleDataProcessor");
+    }
+
     public SimpleDataProcessor(String name, Map<String, String> properties)
     {
         logger.log(Level.FINE, "SimpleDataProcessor: " + name + ", " + properties);
