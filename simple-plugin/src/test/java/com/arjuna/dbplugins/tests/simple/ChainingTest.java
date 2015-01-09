@@ -29,9 +29,9 @@ public class ChainingTest
         SimpleDataProcessor simpleDataProcessor = new SimpleDataProcessor("Simple Data Processor", Collections.<String, String>emptyMap());
         SimpleDataSink      simpleDataSink      = new SimpleDataSink("Simple Data Sink", Collections.<String, String>emptyMap());
 
-        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataSource, null);
-        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataProcessor, null);
-        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataSink, null);
+        dataFlowNodeLifeCycleControl.completeCreationAndActivateDataFlowNode(UUID.randomUUID().toString(), simpleDataSource, null);
+        dataFlowNodeLifeCycleControl.completeCreationAndActivateDataFlowNode(UUID.randomUUID().toString(), simpleDataProcessor, null);
+        dataFlowNodeLifeCycleControl.completeCreationAndActivateDataFlowNode(UUID.randomUUID().toString(), simpleDataSink, null);
 
         ((ObservableDataProvider<String>) simpleDataSource.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) simpleDataProcessor.getDataConsumer(String.class));
         ((ObservableDataProvider<String>) simpleDataProcessor.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) simpleDataSink.getDataConsumer(String.class));
@@ -69,13 +69,13 @@ public class ChainingTest
         SimpleDataService   simpleDataService   = new SimpleDataService("Simple Data Service", Collections.<String, String>emptyMap());
         SimpleDataStore     simpleDataStore     = new SimpleDataStore("Simple Data Store", Collections.<String, String>emptyMap());
 
-        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataSource, null);
-        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataProcessor, null);
-        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataSink1, null);
-        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataSink2, null);
-        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataSink3, null);
-        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataService, null);
-        dataFlowNodeLifeCycleControl.processCreatedDataFlowNode(UUID.randomUUID().toString(), simpleDataStore, null);
+        dataFlowNodeLifeCycleControl.completeCreationAndActivateDataFlowNode(UUID.randomUUID().toString(), simpleDataSource, null);
+        dataFlowNodeLifeCycleControl.completeCreationAndActivateDataFlowNode(UUID.randomUUID().toString(), simpleDataProcessor, null);
+        dataFlowNodeLifeCycleControl.completeCreationAndActivateDataFlowNode(UUID.randomUUID().toString(), simpleDataSink1, null);
+        dataFlowNodeLifeCycleControl.completeCreationAndActivateDataFlowNode(UUID.randomUUID().toString(), simpleDataSink2, null);
+        dataFlowNodeLifeCycleControl.completeCreationAndActivateDataFlowNode(UUID.randomUUID().toString(), simpleDataSink3, null);
+        dataFlowNodeLifeCycleControl.completeCreationAndActivateDataFlowNode(UUID.randomUUID().toString(), simpleDataService, null);
+        dataFlowNodeLifeCycleControl.completeCreationAndActivateDataFlowNode(UUID.randomUUID().toString(), simpleDataStore, null);
 
         ((ObservableDataProvider<String>) simpleDataSource.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) simpleDataService.getDataConsumer(String.class));
         ((ObservableDataProvider<String>) simpleDataService.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) simpleDataSink1.getDataConsumer(String.class));
