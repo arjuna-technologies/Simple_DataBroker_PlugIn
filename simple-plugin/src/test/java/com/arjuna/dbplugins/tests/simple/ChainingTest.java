@@ -16,7 +16,7 @@ import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataService;
 import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataSink;
 import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataSource;
 import com.arjuna.dbplugins.simple.dataflownodes.SimpleDataStore;
-import com.arjuna.dbutilities.testsupport.dataflownodes.lifecycle.TestJEEDataFlowNodeLifeCycleControl;
+import com.arjuna.dbutils.testsupport.dataflownodes.lifecycle.TestJEEDataFlowNodeLifeCycleControl;
 
 public class ChainingTest
 {
